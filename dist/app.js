@@ -5,6 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { LitElement, html, customElement, css } from 'lit-element';
+import './components/menu';
 let AppRoot = class AppRoot extends LitElement {
     render() {
         return html `

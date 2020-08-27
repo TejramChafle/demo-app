@@ -1,4 +1,6 @@
 import { LitElement, html, customElement, css } from 'lit-element';
+import './components/menu';
+
 @customElement('app-root')
 export class AppRoot extends LitElement {
     static styles = css`
