@@ -1,4 +1,4 @@
-import { LitElement, html, customElement, css } from 'lit-element';
+import { LitElement, html, customElement, css, property } from 'lit-element';
 // import { render } from 'lit-html';
 
 @customElement('app-menu')
@@ -28,6 +28,8 @@ export class AppMenu extends LitElement {
             }
         }
     `;
+
+    @property()
 
         
 

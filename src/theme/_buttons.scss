@@ -1,0 +1,11 @@
+@import './variables';
+
+.btn {
+    padding: 5px 10px;
+    border: transparent;
+    font-family: Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+    background-color: $color-primary;
+    color: $color-tertiary;
+    border-radius: 25px;
+}
