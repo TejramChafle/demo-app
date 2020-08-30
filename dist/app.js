@@ -6,13 +6,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { LitElement, html, customElement, css } from 'lit-element';
 import './components/menu';
+import './pages/registration/registration';
+import './pages/employees/employees';
 let AppRoot = class AppRoot extends LitElement {
     render() {
         return html `
-            <main class="main">Welcome to LitElementLearnings</main>
-            <app-menu>
-				<p>This is child content</p>
-			</app-menu>
+            <employee-registration></employee-registration>
+            <app-employees></app-employees>
             <slot></slot>
         `;
     }
@@ -20,14 +20,6 @@ let AppRoot = class AppRoot extends LitElement {
 AppRoot.styles = css `
        :host {
                 height: 100vh;
-                padding: 16px;
-                font-size: 32px;
-            .main {
-                background-color: #FFCDD2;
-                color: #9E9E9E;
-                height: 100vh;
-                padding: 16px;
-            }
        }
     `;
 AppRoot = __decorate([

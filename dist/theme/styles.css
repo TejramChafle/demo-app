@@ -1,0 +1,173 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+html {
+  font-size: 62.5%;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+.btn {
+  padding: 0.8rem 1.6rem;
+  font-family: "Montserrat", sans-serif;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+}
+.btn:hover {
+  cursor: pointer;
+}
+.btn-primary {
+  background-color: #3F51B5;
+  color: #C5CAE9;
+}
+.btn-primary:hover {
+  background-color: white;
+  color: #3F51B5;
+  border: 1px solid #3F51B5;
+}
+.btn-secondary {
+  background-color: #9FA8DA;
+  color: #C5CAE9;
+}
+.btn-secondary:hover {
+  background-color: white;
+  color: #9FA8DA;
+  border: 1px solid #C5CAE9;
+}
+.btn-dark {
+  background-color: #9FA8DA;
+  color: #C5CAE9;
+}
+.btn-dark:hover {
+  background-color: white;
+  color: #9FA8DA;
+  border: 1px solid #C5CAE9;
+}
+.btn-warning {
+  background-color: #FFCC80;
+  color: #fff;
+}
+.btn-warning:hover {
+  background-color: white;
+  color: #FFCC80;
+  border: 1px solid #FFCC80;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-group label {
+  display: block;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1.8;
+}
+.form-group input[type=text], .form-group input[type=email], .form-group input[type=date] {
+  padding: 0.8rem;
+  border: 1px solid #C5CAE9;
+  width: 100%;
+  box-sizing: border-box;
+}
+.form-group input[type=text]:focus, .form-group input[type=email]:focus, .form-group input[type=date]:focus {
+  border: 1px solid #9FA8DA;
+}
+.form-group select {
+  padding: 0.8rem;
+  border: 1px solid #C5CAE9;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Custom form style for registration form */
+#registration {
+  width: 50%;
+}
+
+header {
+  padding: 2rem;
+  font-family: "Montserrat", sans-serif;
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1.8;
+  background-color: #9FA8DA;
+  color: #3F51B5;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color: #000;
+  color: #fff;
+  font-size: 1.5rem;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+footer a {
+  color: #fff;
+}
+
+aside {
+  width: 30%;
+}
+
+#nav-pane {
+  padding: 2rem;
+  margin-top: 2rem;
+  font-size: 1.8rem;
+  min-width: 30rem;
+  background-color: #9FA8DA;
+  color: #fff;
+}
+#nav-pane a {
+  display: block;
+  text-decoration: none;
+  padding: 1rem;
+  color: #fff;
+  border-bottom: 1px solid #fff;
+}
+#nav-pane a:hover {
+  color: #fff;
+  background-color: #3F51B5;
+  border-bottom: 1px solid #3F51B5;
+}
+
+main {
+  display: flex;
+}
+
+article {
+  width: 70%;
+  margin: 2rem 0 2rem 2rem;
+  padding: 2rem;
+  border: 2px solid #9FA8DA;
+  box-sizing: border-box;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+body {
+  font-size: 1.8rem;
+  line-height: 1.8;
+  padding: 2rem;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+}
+
+/*# sourceMappingURL=styles.css.map */

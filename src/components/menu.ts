@@ -1,45 +1,18 @@
-import { LitElement, html, customElement, css, property } from 'lit-element';
-// import { render } from 'lit-html';
+import { LitElement, html, customElement, property } from 'lit-element';
 
 @customElement('app-menu')
 export class AppMenu extends LitElement {
 
-    static styles = css`
-        :host {
-            display: block;
-            padding: 16px;
-            font-size: 18px;
-            max-width: 20%;
-            min-width: 200px;
-            background-color: #F06292;
-            color: #fff;
-
-            #nav-pane {
-                a {
-                    display: inline-block;
-                    text-decoration: none;
-                    padding: 5px;
-                    color: #fff;
-                    &:hover {
-                        color: #F06292;
-                        background-color: #fff;
-                    }
-                }
-            }
-        }
-    `;
-
     @property()
-
-        
 
     render() {
         return html`
-            This should be menu text;
+            <link rel="stylesheet" href="../dist/theme/styles.css">
             <div id="nav-pane">
-                <a href="#">Home</a>
-                <a href="#">Registration</a>
-                <a href="#">Other function</a>
+                <a href="/">Home</a>
+                <a href="/employees">Employees</a>
+                <a href="/registration">Resitration</a>
+                <a href="/departments">Departments</a>
             </div>
             <slot></slot>
         `;

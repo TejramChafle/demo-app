@@ -1,0 +1,1 @@
+{"version":3,"file":"registration.d.ts","sourceRoot":"","sources":["../../../src/pages/registration/registration.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAiC,MAAM,aAAa,CAAC;AAExE,qBACa,YAAa,SAAQ,UAAU;IACxC,QAAQ,EAAE,GAAG,CAAM;IAES,YAAY,KAAM;IACnB,MAAM,WAAsB;IAC5B,WAAW,WAA2E;IAGjH,MAAM;IAwCN,QAAQ,CAAC,KAAK,EAAE,GAAG;IAInB,QAAQ,CAAC,KAAK,EAAE,KAAK;IAKrB,OAAO;CAKV"}

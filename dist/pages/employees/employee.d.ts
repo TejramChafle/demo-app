@@ -1,5 +1,5 @@
 import { LitElement } from 'lit-element';
-export declare class AppMenu extends LitElement {
+export declare class Employee extends LitElement {
     render(): import("lit-element").TemplateResult;
 }
-//# sourceMappingURL=menu.d.ts.map
+//# sourceMappingURL=employee.d.ts.map
