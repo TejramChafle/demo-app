@@ -5,13 +5,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { LitElement, html, customElement, property } from 'lit-element';
+import { connect } from 'pwa-helpers';
 import { store } from '../../redux/store';
 import { navigate } from 'lit-redux-router';
-let Employees = class Employees extends LitElement {
+import { getEmployees } from '../../redux/actions';
+let Employees = class Employees extends connect(store)(LitElement) {
     constructor() {
         super();
         this.employees = [];
         this.getEmployees();
+    }
+    stateChanged(state) {
+        console.log(state);
     }
     render() {
         return html `
@@ -27,16 +32,10 @@ let Employees = class Employees extends LitElement {
         store.dispatch(navigate('/register-employee'));
     }
     async getEmployees() {
-        // const result = await store.dispatch(getEmployees());
-        // this.employees = result.employees;
-        const result = await new Promise((resolve, reject) => {
-            // resolve(store.dispatch(getEmployees()));
-            setTimeout(() => resolve("done!"), 5000);
-        });
-        console.log(result);
-        /* result.then((response)=>{
-            console.log(response);
-        }); */
+        const result = await store.dispatch(getEmployees());
+        this.employees = result.employees;
+        // store.dispatch(getEmployees()).then((response) => { console.log(response) });
+        // console.log(store.dispatch(getEmployees()));
     }
 };
 __decorate([

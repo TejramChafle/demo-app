@@ -1,13 +1,11 @@
 export declare const reducer: (state: {
     employees: never[];
+    employee: null;
+    error: boolean;
 } | undefined, action: any) => {
-    employees: never[];
-} | {
     employees: any;
     error: any;
-} | {
-    employee: any;
-    employees: never[];
+    employee: null;
 } | {
     employee: any;
     error: any;
@@ -15,5 +13,7 @@ export declare const reducer: (state: {
 } | {
     updated: any;
     employees: never[];
+    employee: null;
+    error: boolean;
 };
 //# sourceMappingURL=reducer.d.ts.map

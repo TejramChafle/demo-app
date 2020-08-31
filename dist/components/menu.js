@@ -5,10 +5,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { LitElement, html, customElement, property } from 'lit-element';
-import { connectRouter } from 'lit-redux-router';
+import { connect } from 'pwa-helpers';
 import { store } from '../redux/store';
-connectRouter(store);
-let AppMenu = class AppMenu extends LitElement {
+// connectRouter(store);
+let AppMenu = class AppMenu extends connect(store)(LitElement) {
+    constructor() {
+        super(...arguments);
+        this.activeroute = '';
+    }
+    stateChanged(state) {
+        console.log(state);
+        // this.activeroute = state.router.activeRoute;
+    }
     render() {
         return html `
             <link rel="stylesheet" href="../dist/theme/styles.css">
@@ -23,8 +31,8 @@ let AppMenu = class AppMenu extends LitElement {
     }
 };
 __decorate([
-    property()
-], AppMenu.prototype, "render", null);
+    property({ type: String })
+], AppMenu.prototype, "activeroute", void 0);
 AppMenu = __decorate([
     customElement('app-menu')
 ], AppMenu);

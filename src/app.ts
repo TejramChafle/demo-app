@@ -20,6 +20,9 @@ export class AppRoot extends LitElement {
             <lit-route path="/register-employee" component="employee-registration"></lit-route>
             <lit-route path="/employee/:id" component="employee-registration"></lit-route>
             <lit-route path="/departments" component="app-departments"></lit-route>
+
+            <app-employees></app-employees>
+
             <slot></slot>
         `;
     }

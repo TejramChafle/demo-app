@@ -4,6 +4,16 @@ export const DELETE_EMPLOYEE = 'DELETE_EMPLOYEE';
 export const GET_EMPLOYEES = 'GET_EMPLOYEES';
 export const GET_EMPLOYEE = 'GET_EMPLOYEE';
 export const REGISTER_DEPARTMENT = 'REGISTER_DEPARTMENT';
+/* import axios from 'axios';
+const apiClient = axios.create({
+    baseURL: 'https://run.mocky.io/v3/0c3d3c02-d27a-4d87-a9a1-e5fdc31dc836',
+    responseType: 'json',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+}); */
+// import fetch from 'cross-fetch';
+// import 'cross-fetch/polyfill';
 export const registerEmployee = (employee) => {
     const employees = localStorage.getItem('employees') ? JSON.parse(localStorage.getItem('employees')) : [];
     employees.push(Object.assign(Object.assign({}, employee), { id: employees.length }));
@@ -42,7 +52,7 @@ export const updateEmployee = (employee) => {
 export const getEmployeesResult = (employees, error) => {
     // const employees = localStorage.getItem('employees') ? JSON.parse(localStorage.getItem('employees')) : [];
     // console.log('getEmployees', localStorage.getItem('employees'));
-    console.log(employees);
+    // console.log(employees);
     return {
         type: GET_EMPLOYEES,
         employees: employees,
@@ -60,15 +70,30 @@ export const deleteEmployee = (employee) => {
         error: false
     };
 };
-export const getEmployees = () => {
-    // console.log('getEmployees', localStorage.getItem('employees'));
+/* export const getEmployees = () => {
     return (dispatch, getState) => {
         console.log(getState());
-        let employees = [];
-        setTimeout(() => {
-            employees = localStorage.getItem('employees') ? JSON.parse(localStorage.getItem('employees')) : [];
-            dispatch(getEmployeesResult(employees, true));
-        }, 5000);
+        return fetch('https://run.mocky.io/v3/5fa28a2b-839c-4a92-bc11-b73bed2a2938')
+            .then((response) => {
+                return response.json();
+            })
+            .then((json) => {
+                // Here, we update the app state with the results of the API call.
+                console.log(json);
+                dispatch(getEmployeesResult(json.employees, false));
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+} */
+export const getEmployees = () => {
+    const employees = localStorage.getItem('employees') ? JSON.parse(localStorage.getItem('employees')) : [];
+    console.log(employees);
+    return {
+        type: GET_EMPLOYEES,
+        employees: employees,
+        error: employees ? false : true
     };
 };
 //# sourceMappingURL=actions.js.map

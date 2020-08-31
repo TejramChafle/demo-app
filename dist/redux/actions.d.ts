@@ -30,5 +30,9 @@ export declare const deleteEmployee: (employee: Employee) => {
     isDeleted: boolean;
     error: boolean;
 };
-export declare const getEmployees: () => (dispatch: any, getState: any) => void;
+export declare const getEmployees: () => {
+    type: string;
+    employees: any;
+    error: boolean;
+};
 //# sourceMappingURL=actions.d.ts.map

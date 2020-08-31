@@ -1,15 +1,20 @@
 import { LitElement, html, customElement, property } from 'lit-element';
+import { connect } from 'pwa-helpers';
 import { store } from '../../redux/store';
 import { navigate } from 'lit-redux-router';
 import { getEmployees } from '../../redux/actions';
 
 @customElement('app-employees')
-export class Employees extends LitElement {
+export class Employees extends connect(store) (LitElement) {
 
     constructor() {
         super();
         this.getEmployees();
     }
+
+    stateChanged(state: any) {
+        console.log(state);
+    }   
 
     @property({type: Array}) employees = [];
 
@@ -29,17 +34,9 @@ export class Employees extends LitElement {
     }
 
     async getEmployees() {
-        // const result = await store.dispatch(getEmployees());
-        
-        // this.employees = result.employees;
-        const result = await new Promise((resolve, reject)=>{
-            // resolve(store.dispatch(getEmployees()));
-            setTimeout(() => resolve("done!"), 5000)
-        });
-
-        console.log(result);
-        /* result.then((response)=>{
-            console.log(response);
-        }); */
+        const result = await store.dispatch(getEmployees());
+        this.employees = result.employees;
+        // store.dispatch(getEmployees()).then((response) => { console.log(response) });
+        // console.log(store.dispatch(getEmployees()));
     }
 }

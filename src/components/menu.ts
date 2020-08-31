@@ -1,14 +1,20 @@
 import { LitElement, html, customElement, property } from 'lit-element';
+import { connect } from 'pwa-helpers';
 
 import { connectRouter } from 'lit-redux-router';
 import { store } from '../redux/store';
 
-connectRouter(store);
+// connectRouter(store);
 
 @customElement('app-menu')
-export class AppMenu extends LitElement {
+export class AppMenu extends connect(store)(LitElement) {
 
-    @property()
+    @property({type: String}) activeroute = '';
+
+    stateChanged(state: any) {
+        console.log(state);
+        // this.activeroute = state.router.activeRoute;
+    }  
 
     render() {
         return html`

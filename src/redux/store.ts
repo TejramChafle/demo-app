@@ -3,9 +3,23 @@ import { reducer } from './reducer';
 import { lazyReducerEnhancer } from 'pwa-helpers';
 import thunk from 'redux-thunk';
 
+
+const logger = store => {
+    return next => {
+        return action => {
+            // console.log('Middleware dispatching action: ', action );
+            const result = next(action);
+            // console.log('Middleware next state', store.getState());
+            return result;
+        }
+    }
+}
+
+
 export const store = createStore(
     reducer,
-    compose(lazyReducerEnhancer(combineReducers), applyMiddleware(thunk))
+    compose(lazyReducerEnhancer(combineReducers), applyMiddleware(logger, thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+    // applyMiddleware(logger, thunk)
 );
 
 /* declare global {
