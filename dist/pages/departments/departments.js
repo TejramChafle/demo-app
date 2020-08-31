@@ -5,34 +5,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { LitElement, html, customElement, property } from 'lit-element';
-import { connectRouter } from 'lit-redux-router';
-import { store } from '../redux/store';
-connectRouter(store);
-let AppMenu = class AppMenu extends LitElement {
+let Departments = class Departments extends LitElement {
     render() {
         return html `
             <link rel="stylesheet" href="../dist/theme/styles.css">
-            <div id="nav-pane">
-                <a href="/">Home</a>
-                <a href="/employees">Employees</a>
-                <a href="/register-employee">Resitration</a>
-                <a href="/departments">Departments</a>
-            </div>
+            Departments working!
             <slot></slot>
         `;
     }
 };
 __decorate([
     property()
-], AppMenu.prototype, "render", null);
-AppMenu = __decorate([
-    customElement('app-menu')
-], AppMenu);
-export { AppMenu };
-// render(AppMenu, AppRoot as unknown as HTMLElement);
-/* declare global {
-    interface HTMLElementTagNameMap {
-        'app-menu': AppMenu;
-    }
-} */
-//# sourceMappingURL=menu.js.map
+], Departments.prototype, "render", null);
+Departments = __decorate([
+    customElement('app-departments')
+], Departments);
+export { Departments };
+//# sourceMappingURL=departments.js.map

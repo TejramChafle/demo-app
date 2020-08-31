@@ -38,7 +38,13 @@
 	"author": "The Polymer Authors",
 	"license": "BSD-3-Clause",
 	"dependencies": {
-		"lit-element": "^2.3.1"
+		"lit-element": "^2.3.1",
+		"lit-redux-router": "^0.15.1",
+		"nanoid": "^3.1.12",
+		"pwa-helpers": "^0.9.1",
+		"redux": "^4.0.5",
+		"redux-thunk": "^2.3.0",
+		"reselect": "^4.0.0"
 	},
 	"devDependencies": {
 		"@11ty/eleventy": "^0.10.0",

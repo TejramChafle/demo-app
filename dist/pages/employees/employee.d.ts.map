@@ -1,1 +1,1 @@
-{"version":3,"file":"employee.d.ts","sourceRoot":"","sources":["../../../src/pages/employees/employee.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAiC,MAAM,aAAa,CAAC;AAExE,qBACa,QAAS,SAAQ,UAAU;IAIpC,MAAM;CAOT"}
+{"version":3,"file":"employee.d.ts","sourceRoot":"","sources":["../../../src/pages/employees/employee.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAiC,MAAM,aAAa,CAAC;AAKxE,qBACa,QAAS,SAAQ,UAAU;IAEV,QAAQ,EAAE,GAAG,CAAC;IAExC,MAAM;IA4BN,YAAY;IAOZ,MAAM;IAIA,QAAQ;CAUjB"}
