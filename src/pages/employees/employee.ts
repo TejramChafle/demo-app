@@ -1,10 +1,11 @@
 import { LitElement, html, customElement, property } from 'lit-element';
 import { store } from '../../redux/store';
 import { navigate } from 'lit-redux-router';
+import { connect } from 'pwa-helpers';
 import { deleteEmployee } from '../../redux/actions';
 
 @customElement('app-employee')
-export class Employee extends LitElement {
+export class Employee extends connect(store)(LitElement) {
 
     @property({type: Object}) employee: any;
 
@@ -47,14 +48,16 @@ export class Employee extends LitElement {
         store.dispatch(navigate('/employee/'+this.employee.id));
     }
 
-    async onDelete() {
+    onDelete() {
         if (confirm('Are you sure you want to delete?')) {
-            const result = await store.dispatch(deleteEmployee(this.employee));
-            console.log(result);
-            if (result.isDeleted) {
-                alert('Employee Record deleted successfully.');
-                // store.dispatch(navigate('/employees'));
-            }
+            store.dispatch(deleteEmployee(this.employee))
+                .then((response)=> {
+                    console.log(response);
+                    alert('Employee Record deleted successfully.');
+                })
+                .catch((error)=> {
+                    console.log(error);
+                });
         }
     }
 }

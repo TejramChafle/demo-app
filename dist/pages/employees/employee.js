@@ -7,8 +7,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { LitElement, html, customElement, property } from 'lit-element';
 import { store } from '../../redux/store';
 import { navigate } from 'lit-redux-router';
+import { connect } from 'pwa-helpers';
 import { deleteEmployee } from '../../redux/actions';
-let Employee = class Employee extends LitElement {
+let Employee = class Employee extends connect(store)(LitElement) {
     render() {
         return html `
             <link rel="stylesheet" href="../dist/theme/styles.css">
@@ -44,14 +45,16 @@ let Employee = class Employee extends LitElement {
     onEdit() {
         store.dispatch(navigate('/employee/' + this.employee.id));
     }
-    async onDelete() {
+    onDelete() {
         if (confirm('Are you sure you want to delete?')) {
-            const result = await store.dispatch(deleteEmployee(this.employee));
-            console.log(result);
-            if (result.isDeleted) {
+            store.dispatch(deleteEmployee(this.employee))
+                .then((response) => {
+                console.log(response);
                 alert('Employee Record deleted successfully.');
-                // store.dispatch(navigate('/employees'));
-            }
+            })
+                .catch((error) => {
+                console.log(error);
+            });
         }
     }
 };

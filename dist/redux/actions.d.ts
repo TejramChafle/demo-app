@@ -23,7 +23,7 @@ export declare const getEmployeeResult: (result: {
     employee: Employee;
     error: boolean;
 };
-export declare const getEmployee: (id: string) => (dispatch: any, getState: any) => Promise<void>;
+export declare const getEmployee: (id: string) => (dispatch: any, getState: any) => Promise<any>;
 export declare const updateEmployee: (employee: Employee) => {
     type: string;
     employees: any;
@@ -34,12 +34,16 @@ export declare const getEmployeesResult: (employees: any, error: any) => {
     employees: any;
     error: any;
 };
-export declare const deleteEmployee: (employee: Employee) => {
+export declare const deleteEmployeeResult: (result: {
+    employees: Array<Employee>;
+    error: boolean;
+}) => {
     type: string;
-    employees: any;
+    employees: Employee[];
     isDeleted: boolean;
     error: boolean;
 };
+export declare const deleteEmployee: (employee: Employee) => (dispatch: any, getState: any) => Promise<any>;
 export declare const getEmployees: () => (dispatch: any, getState: any) => Promise<void>;
 export declare const authResult: (result: any) => {
     type: string;

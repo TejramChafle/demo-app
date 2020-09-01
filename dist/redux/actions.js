@@ -53,6 +53,7 @@ export const registerEmployee = (employee) => {
     };
 };
 export const getEmployeeResult = (result) => {
+    console.log(result);
     return {
         type: GET_EMPLOYEE,
         employee: result.employee,
@@ -62,16 +63,21 @@ export const getEmployeeResult = (result) => {
 export const getEmployee = (id) => {
     return (dispatch, getState) => {
         const auth = JSON.parse(localStorage.getItem('auth'));
-        return fetch(FIREBASE_CONFIG.databaseURL + '/employees/' + id + '.json?auth=' + auth.idToken)
-            .then((response) => {
-            return response.json();
-        })
-            .then((data) => {
-            // Here, we update the app state with the results of the API call.
-            console.log(data);
-            if (data) {
-                dispatch(getEmployeeResult({ employee: Object.assign({ id }, data), error: false }));
+        return fetch(FIREBASE_CONFIG.databaseURL + '/employees/' + id + '.json?auth=' + auth.idToken, {
+            method: 'get',
+            headers: {
+                "Content-type": "application/json"
             }
+        })
+            .then((response) => {
+            // console.log(response.json());
+            /* response.json().then((data) => {
+                console.log(data);
+                if (data) {
+                    dispatch(getEmployeeResult({ employee: { id, ...data }, error: false }));
+                }
+            }) */
+            return response.json();
         })
             .catch((error) => {
             console.log(error);
@@ -94,24 +100,44 @@ export const updateEmployee = (employee) => {
     };
 };
 export const getEmployeesResult = (employees, error) => {
-    // const employees = localStorage.getItem('employees') ? JSON.parse(localStorage.getItem('employees')) : [];
-    // console.log('getEmployees', localStorage.getItem('employees'));
-    // console.log(employees);
     return {
         type: GET_EMPLOYEES,
         employees: employees,
         error: error
     };
 };
-export const deleteEmployee = (employee) => {
-    const employees = JSON.parse(localStorage.getItem('employees'));
-    const employeesAfterDeleted = employees.filter((emp) => { return emp.id != employee.id; });
-    localStorage.setItem('employees', JSON.stringify(employeesAfterDeleted));
+export const deleteEmployeeResult = (result) => {
     return {
         type: DELETE_EMPLOYEE,
-        employees: employeesAfterDeleted,
-        isDeleted: true,
-        error: false
+        employees: result.employees,
+        isDeleted: !result.error,
+        error: result.error
+    };
+};
+export const deleteEmployee = (employee) => {
+    return (dispatch, getState) => {
+        const auth = JSON.parse(localStorage.getItem('auth'));
+        return fetch(FIREBASE_CONFIG.databaseURL + '/employees/' + employee.id + '.json?auth=' + auth.idToken, {
+            method: 'delete',
+            headers: {
+                "Content-type": "application/json"
+            }
+        })
+            .then((response) => {
+            // console.log(response.json());
+            response.json().then((data) => {
+                console.log(data);
+                console.log(getState().state.employees);
+                if (!data) {
+                    const employees = getState().state.employees.filter((emp) => { return emp.id != employee.id; });
+                    dispatch(deleteEmployeeResult({ employees: employees, error: false }));
+                }
+            });
+            return response.json();
+        })
+            .catch((error) => {
+            console.log(error);
+        });
     };
 };
 export const getEmployees = () => {
@@ -148,15 +174,6 @@ export const getEmployees = () => {
         });
     };
 };
-/* export const getEmployees = () => {
-    const employees = localStorage.getItem('employees') ? JSON.parse(localStorage.getItem('employees')) : [];
-    // console.log(employees);
-    return {
-        type: GET_EMPLOYEES,
-        employees: employees,
-        error: employees ? false: true
-    }
-} */
 export const authResult = (result) => {
     return {
         type: LOGIN,
@@ -177,14 +194,6 @@ export const login = (credentials) => {
             .then((response) => {
             return response.json();
         })
-            /* .then((data) => {
-                console.log('Request succeeded with JSON response', data);
-                if (data.error) {
-                    dispatch(authResult({ auth: null, error: data.error }));
-                } else {
-                    dispatch(authResult({ auth: data, error: false }));
-                }
-            }) */
             .catch((error) => {
             console.log('Request failed', error);
             dispatch(authResult({ auth: null, error: error }));
