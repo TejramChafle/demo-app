@@ -1,17 +1,24 @@
 import { LitElement, customElement, html, property } from 'lit-element';
+import { connect } from 'pwa-helpers';
 import { store } from '../../redux/store';
-import { navigate } from 'lit-redux-router';
-import { registerEmployee } from '../../redux/actions';
-import { getEmployee, updateEmployee } from '../../redux/actions';
+import { getEmployee, updateEmployee, registerEmployee } from '../../redux/actions';
 
 @customElement('employee-registration')
-export class Registration extends LitElement {
+export class Registration extends connect(store)(LitElement) {
     // formdata: any = {};
     // Properties
     @property({ type: Object }) formdata: any;
     @property({ type: String }) id: any;
     @property({ type: Array }) gender = ['Male', 'Female'];
     @property({ type: Array }) departments = ['Engineering', 'Human Respurce', 'Training', 'Maintenance', 'Support'];
+
+    /* stateChanged(appstate: any) {
+        console.log(appstate);
+        this.formdata = appstate.state.employee;
+        if (this.formdata) {
+            this.performUpdate();
+        }
+    } */
 
     constructor() {
         super();
@@ -94,18 +101,19 @@ export class Registration extends LitElement {
         this.formdata = {};
     }
 
-    async getEmployeeData() {
-        const result = await store.dispatch(getEmployee(this.id));
-        // console.log(result);
-        if (result.employee && !result.error) {
-            this.formdata = result.employee;
-            this.performUpdate();
-        }
+    getEmployeeData() {
+        store.dispatch(getEmployee(this.id)).then((response) => {
+            this.formdata = response;
+            // this.performUpdate();
+            console.log(response);
+        }).catch((error) => {
+            console.log(error);
+        })
     }
 
-    shouldUpdate(changedProperties: any) {
+    /* shouldUpdate(changedProperties: any) {
         // console.log(this.id, this.formdata);
         // console.log(changedProperties);
         return !changedProperties.has('formdata');
-    }
+    } */
 }

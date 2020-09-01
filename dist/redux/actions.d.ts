@@ -6,16 +6,24 @@ export declare const GET_EMPLOYEE = "GET_EMPLOYEE";
 export declare const REGISTER_DEPARTMENT = "REGISTER_DEPARTMENT";
 export declare const LOGIN = "LOGIN";
 import { Employee } from '../pages/employees/employee.interface';
-export declare const registerEmployee: (employee: Employee) => {
+export declare const registerEmployeeResult: (result: {
+    employee: Employee;
+    error: boolean;
+}) => {
     type: string;
     employee: Employee;
     error: boolean;
 };
-export declare const getEmployee: (id: string) => {
+export declare const registerEmployee: (employee: Employee) => (dispatch: any, getState: any) => Promise<void>;
+export declare const getEmployeeResult: (result: {
+    employee: Employee;
+    error: boolean;
+}) => {
     type: string;
-    employee: any;
+    employee: Employee;
     error: boolean;
 };
+export declare const getEmployee: (id: string) => (dispatch: any, getState: any) => Promise<void>;
 export declare const updateEmployee: (employee: Employee) => {
     type: string;
     employees: any;

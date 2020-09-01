@@ -20,7 +20,6 @@ let Employees = class Employees extends connect(store)(LitElement) {
         this.employees = appstate.state.employees;
     }
     render() {
-        var _a;
         return html `
             <!-- External Style -->
             <link rel="stylesheet" href="../dist/theme/styles.css">
@@ -30,11 +29,10 @@ let Employees = class Employees extends connect(store)(LitElement) {
             <button type="reset" class="btn btn-dark" @click="${this.registerStudent}" style="float:right">Register Employee</button>
             <br><br><hr><br>
 
-            <!-- Record not found message -->
-            ${((_a = this.employees) === null || _a === void 0 ? void 0 : _a.length) ? html `` : html `No employees registred`}
+            <!-- Records & Records not found message -->
+            ${this.employees && this.employees.length ? html `${this.employees.map((employee) => html `<app-employee .employee=${employee}></app-employee>`)}` : html `No employees registred`}
 
             <!-- Employee records -->
-            ${this.employees.map((employee) => html `<app-employee .employee=${employee}></app-employee>`)}
 
             <slot></slot>
         `;

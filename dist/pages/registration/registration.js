@@ -5,10 +5,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { LitElement, customElement, html, property } from 'lit-element';
+import { connect } from 'pwa-helpers';
 import { store } from '../../redux/store';
-import { registerEmployee } from '../../redux/actions';
-import { getEmployee, updateEmployee } from '../../redux/actions';
-let Registration = class Registration extends LitElement {
+import { getEmployee, updateEmployee, registerEmployee } from '../../redux/actions';
+let Registration = class Registration extends connect(store)(LitElement) {
+    /* stateChanged(appstate: any) {
+        console.log(appstate);
+        this.formdata = appstate.state.employee;
+        if (this.formdata) {
+            this.performUpdate();
+        }
+    } */
     constructor() {
         super();
         this.gender = ['Male', 'Female'];
@@ -86,18 +93,14 @@ let Registration = class Registration extends LitElement {
         // el.reset();
         this.formdata = {};
     }
-    async getEmployeeData() {
-        const result = await store.dispatch(getEmployee(this.id));
-        // console.log(result);
-        if (result.employee && !result.error) {
-            this.formdata = result.employee;
-            this.performUpdate();
-        }
-    }
-    shouldUpdate(changedProperties) {
-        // console.log(this.id, this.formdata);
-        // console.log(changedProperties);
-        return !changedProperties.has('formdata');
+    getEmployeeData() {
+        store.dispatch(getEmployee(this.id)).then((response) => {
+            this.formdata = response;
+            // this.performUpdate();
+            console.log(response);
+        }).catch((error) => {
+            console.log(error);
+        });
     }
 };
 __decorate([

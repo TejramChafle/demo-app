@@ -24,24 +24,75 @@ const apiClient = axios.create({
 // import fetch from 'cross-fetch';
 // import 'cross-fetch/polyfill';
 
-export const registerEmployee = (employee: Employee) => {
-    const employees = localStorage.getItem('employees') ? JSON.parse(localStorage.getItem('employees')) : [];
-    employees.push({ ...employee, id: employees.length });
-    localStorage.setItem('employees', JSON.stringify(employees));
+
+export const registerEmployeeResult = (result: { employee: Employee, error: boolean }) => {
     return {
         type: REGISTER_EMPLOYEE,
-        employee: employee,
-        error: false
+        employee: result.employee,
+        error: result.error
     }
 }
 
-export const getEmployee = (id: string) => {
-    const employees = JSON.parse(localStorage.getItem('employees'));
-    const employee = employees.find((emp: Employee) => { return emp.id == id });
+
+export const registerEmployee = (employee: Employee) => {
+    return (dispatch, getState) => {
+        const auth = JSON.parse(localStorage.getItem('auth'));
+
+        return fetch(FIREBASE_CONFIG.databaseURL + '/employees.json?auth=' + auth.idToken, {
+            method: 'post',
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(employee)
+        })
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                // Here, we update the app state with the results of the API call.
+                console.log(data);
+
+                if (data) {
+                    let result: Employee;
+                    for (const key in data) {
+                        result = data[key];
+                    }
+                    dispatch(registerEmployeeResult({ employee: result, error: false }));
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+}
+
+
+export const getEmployeeResult = (result: { employee: Employee, error: boolean }) => {
     return {
         type: GET_EMPLOYEE,
-        employee: employee || null,
-        error: employee ? false : true
+        employee: result.employee,
+        error: result.error
+    }
+}
+
+
+export const getEmployee = (id: string) => {
+    return (dispatch, getState) => {
+        const auth = JSON.parse(localStorage.getItem('auth'));
+        return fetch(FIREBASE_CONFIG.databaseURL + '/employees/' + id + '.json?auth=' + auth.idToken)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                // Here, we update the app state with the results of the API call.
+                console.log(data);
+                if (data) {
+                    dispatch(getEmployeeResult({ employee: { id, ...data }, error: false }));
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 }
 
@@ -86,15 +137,31 @@ export const deleteEmployee = (employee: Employee) => {
 
 export const getEmployees = () => {
     return (dispatch, getState) => {
-        console.log(getState());
-        return fetch('https://run.mocky.io/v3/5fa28a2b-839c-4a92-bc11-b73bed2a2938')
+        const auth = JSON.parse(localStorage.getItem('auth'));
+        // 'https://run.mocky.io/v3/5fa28a2b-839c-4a92-bc11-b73bed2a2938'
+        return fetch(FIREBASE_CONFIG.databaseURL + '/employees.json?auth=' + auth.idToken)
             .then((response) => {
                 return response.json();
             })
-            .then((json) => {
+            .then((data) => {
                 // Here, we update the app state with the results of the API call.
-                console.log(json);
-                dispatch(getEmployeesResult(json.employees, false));
+                console.log(data);
+                if (data) {
+                    const employees = [];
+                    for (const key in data) {
+                        employees.push({
+                            id: key,
+                            name: data[key]['name'],
+                            email: data[key]['email'],
+                            gender: data[key]['gender'],
+                            department: data[key]['department'],
+                            joiningdate: data[key]['joiningdate']
+                        });
+                    }
+                    dispatch(getEmployeesResult(employees, false));
+                } else {
+                    dispatch(getEmployeesResult(data, true));
+                }
             })
             .catch((error) => {
                 console.log(error);
