@@ -1,35 +1,45 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
-		<title>LitElement Learnings</title>
-		<script type="module" src="../dist/app.js"></script>
-		<link rel="stylesheet" type="text/css" href="dist/theme/styles.css">
-		<script>
-			window.process = { env: { NODE_ENV: 'production' } };
-		</script>
-		<script src="//unpkg.com/cross-fetch/dist/cross-fetch.js"></script>
-	</head>
-	<body>
-		<!-- HEADER -->
-		<header>LitElement Learnings</header>
 
-		<!-- Main content of the page -->
-		<main>
-			<!-- vertical navbar -->
-			<aside>
-				<app-menu></app-menu>
-			</aside>
-			<article>
-				<!-- Other application components/pages will be rendered inside the root -->
-				<app-root></app-root>
-			</article>
-		</main>
+<head>
+	<meta charset="utf-8">
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+	<title>LitElement Learnings</title>
+	<script type="module" src="../dist/app.js"></script>
+	<link rel="stylesheet" type="text/css" href="dist/theme/styles.css">
+	<script>
+		window.process = { env: { NODE_ENV: 'production' } };
+	</script>
+	<script src="//unpkg.com/cross-fetch/dist/cross-fetch.js"></script>
 
-		<!-- Footer -->
-		<footer>&copy 2020. Developed in <a href="https://lit-element.polymer-project.org/" target="_blank">Lit Element</a></footer>
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
 
-		<slot></slot>
-	</body>
+	<!-- TODO: Add SDKs for Firebase products that you want to use
+			https://firebase.google.com/docs/web/setup#available-libraries -->
+	<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-analytics.js"></script>
+
+	<script>
+		var firebaseConfig = {
+			apiKey: "AIzaSyD1QPoL7lDboFVH-0y-6qCiHVpGIyrko_8",
+			authDomain: "ng-application-f729b.firebaseapp.com",
+			databaseURL: "https://ng-application-f729b.firebaseio.com",
+			projectId: "ng-application-f729b",
+			storageBucket: "ng-application-f729b.appspot.com",
+			messagingSenderId: "876268713836",
+			appId: "1:876268713836:web:3fb970a1a4ffc2aa5c6549",
+			measurementId: "G-L8TM9W1Z0H"
+		};
+		// Initialize Firebase
+		firebase.initializeApp(firebaseConfig);
+		firebase.analytics();
+	</script>
+
+</head>
+
+<body>
+	<app-root></app-root>
+	<slot></slot>
+</body>
+
 </html>

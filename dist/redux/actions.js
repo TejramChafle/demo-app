@@ -4,6 +4,8 @@ export const DELETE_EMPLOYEE = 'DELETE_EMPLOYEE';
 export const GET_EMPLOYEES = 'GET_EMPLOYEES';
 export const GET_EMPLOYEE = 'GET_EMPLOYEE';
 export const REGISTER_DEPARTMENT = 'REGISTER_DEPARTMENT';
+export const LOGIN = 'LOGIN';
+import { FIREBASE_CONFIG } from '../config';
 /* import axios from 'axios';
 const apiClient = axios.create({
     baseURL: 'https://run.mocky.io/v3/0c3d3c02-d27a-4d87-a9a1-e5fdc31dc836',
@@ -42,7 +44,6 @@ export const updateEmployee = (employee) => {
         return emp;
     });
     localStorage.setItem('employees', JSON.stringify(employeesUpdated));
-    console.log('updateEmployee', employee);
     return {
         type: UPDATE_EMPLOYEE,
         employees: employeesUpdated,
@@ -63,37 +64,71 @@ export const deleteEmployee = (employee) => {
     const employees = JSON.parse(localStorage.getItem('employees'));
     const employeesAfterDeleted = employees.filter((emp) => { return emp.id != employee.id; });
     localStorage.setItem('employees', JSON.stringify(employeesAfterDeleted));
-    console.log('deleteEmployee', employeesAfterDeleted);
     return {
         type: DELETE_EMPLOYEE,
+        employees: employeesAfterDeleted,
         isDeleted: true,
         error: false
     };
 };
-/* export const getEmployees = () => {
+export const getEmployees = () => {
     return (dispatch, getState) => {
         console.log(getState());
         return fetch('https://run.mocky.io/v3/5fa28a2b-839c-4a92-bc11-b73bed2a2938')
             .then((response) => {
-                return response.json();
-            })
+            return response.json();
+        })
             .then((json) => {
-                // Here, we update the app state with the results of the API call.
-                console.log(json);
-                dispatch(getEmployeesResult(json.employees, false));
-            })
+            // Here, we update the app state with the results of the API call.
+            console.log(json);
+            dispatch(getEmployeesResult(json.employees, false));
+        })
             .catch((error) => {
-                console.log(error);
-            })
-    }
-} */
-export const getEmployees = () => {
+            console.log(error);
+        });
+    };
+};
+/* export const getEmployees = () => {
     const employees = localStorage.getItem('employees') ? JSON.parse(localStorage.getItem('employees')) : [];
-    console.log(employees);
+    // console.log(employees);
     return {
         type: GET_EMPLOYEES,
         employees: employees,
-        error: employees ? false : true
+        error: employees ? false: true
+    }
+} */
+export const authResult = (result) => {
+    return {
+        type: LOGIN,
+        auth: result.auth,
+        error: result.error
+    };
+};
+export const login = (credentials) => {
+    return (dispatch, getState) => {
+        console.log(getState());
+        return fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + FIREBASE_CONFIG.apiKey, {
+            method: 'post',
+            headers: {
+                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            body: 'email=' + credentials.email + '&password=' + credentials.password + '&returnSecureToken=' + true
+        })
+            .then((response) => {
+            return response.json();
+        })
+            /* .then((data) => {
+                console.log('Request succeeded with JSON response', data);
+                if (data.error) {
+                    dispatch(authResult({ auth: null, error: data.error }));
+                } else {
+                    dispatch(authResult({ auth: data, error: false }));
+                }
+            }) */
+            .catch((error) => {
+            console.log('Request failed', error);
+            dispatch(authResult({ auth: null, error: error }));
+        });
     };
 };
 //# sourceMappingURL=actions.js.map

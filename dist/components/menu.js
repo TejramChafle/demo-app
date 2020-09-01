@@ -6,28 +6,35 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { LitElement, html, customElement, property } from 'lit-element';
 import { connect } from 'pwa-helpers';
+import { connectRouter, navigate } from 'lit-redux-router';
 import { store } from '../redux/store';
-// connectRouter(store);
+import { reducer } from '../redux/reducer';
+connectRouter(store, reducer);
 let AppMenu = class AppMenu extends connect(store)(LitElement) {
     constructor() {
         super(...arguments);
         this.activeroute = '';
     }
     stateChanged(state) {
-        console.log(state);
+        // console.log(state);
         // this.activeroute = state.router.activeRoute;
     }
     render() {
-        return html `
-            <link rel="stylesheet" href="../dist/theme/styles.css">
-            <div id="nav-pane">
-                <a href="/">Home</a>
-                <a href="/employees">Employees</a>
-                <a href="/register-employee">Resitration</a>
-                <a href="/departments">Departments</a>
-            </div>
-            <slot></slot>
-        `;
+        if (localStorage.getItem('auth')) {
+            return html `
+                <link rel="stylesheet" href="../dist/theme/styles.css">
+                <div id="nav-pane">
+                    <a href="/">Home</a>
+                    <a href="/employees">Employees</a>
+                    <a href="/register-employee">Resitration</a>
+                    <a href="/departments">Departments</a>
+                </div>
+                <slot></slot>
+            `;
+        }
+        else {
+            store.dispatch(navigate('auth/signin'));
+        }
     }
 };
 __decorate([

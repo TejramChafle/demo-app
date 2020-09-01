@@ -82,13 +82,13 @@ html {
   font-weight: bold;
   line-height: 1.8;
 }
-.form-group input[type=text], .form-group input[type=email], .form-group input[type=date] {
+.form-group input[type=text], .form-group input[type=email], .form-group input[type=date], .form-group input[type=password] {
   padding: 0.8rem;
   border: 1px solid #C5CAE9;
   width: 100%;
   box-sizing: border-box;
 }
-.form-group input[type=text]:focus, .form-group input[type=email]:focus, .form-group input[type=date]:focus {
+.form-group input[type=text]:focus, .form-group input[type=email]:focus, .form-group input[type=date]:focus, .form-group input[type=password]:focus {
   border: 1px solid #9FA8DA;
 }
 .form-group select {
@@ -103,6 +103,35 @@ html {
   width: 50%;
 }
 
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3F51B5;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 1s linear infinite;
+  /* Safari */
+  animation: spin 1s linear infinite;
+  margin: 50px auto;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 header {
   padding: 2rem;
   font-family: "Montserrat", sans-serif;
@@ -197,6 +226,26 @@ article {
 }
 .employee__detail--actions {
   text-align: right;
+}
+
+.auth {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+.auth__form {
+  width: 400px;
+  height: fit-content;
+  border: 2px solid #9FA8DA;
+  padding: 2rem;
+}
+.auth__form--brand {
+  font-size: 2.4rem;
+  font-weight: bold;
+}
+.auth__form--error {
+  color: #F44336;
 }
 
 * {

@@ -7,16 +7,18 @@ declare const Employees_base: (new (...args: any[]) => {
         employees: never[];
         employee: null;
         error: boolean;
+        auth: null;
     }): void;
     readonly isConnected: boolean;
 }) & typeof LitElement;
 export declare class Employees extends Employees_base {
     constructor();
-    stateChanged(state: any): void;
+    stateChanged(appstate: any): void;
     employees: never[];
     render(): import("lit-element").TemplateResult;
     registerStudent(): void;
     getEmployees(): Promise<void>;
+    shouldUpdate(changedProperties: any): any;
 }
 export {};
 //# sourceMappingURL=employees.d.ts.map

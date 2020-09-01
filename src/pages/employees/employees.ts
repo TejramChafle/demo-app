@@ -12,19 +12,29 @@ export class Employees extends connect(store) (LitElement) {
         this.getEmployees();
     }
 
-    stateChanged(state: any) {
-        console.log(state);
+    stateChanged(appstate: any) {
+        console.log(appstate);
+        this.employees = appstate.state.employees;
     }   
 
     @property({type: Array}) employees = [];
 
     render() {
         return html`
+            <!-- External Style -->
             <link rel="stylesheet" href="../dist/theme/styles.css">
+
+            <!-- Page Header  -->
             Registered Employees
-            <button type="reset" class="btn btn-dark" @click="${this.registerStudent}" style="float:right">Register Student</button>
+            <button type="reset" class="btn btn-dark" @click="${this.registerStudent}" style="float:right">Register Employee</button>
             <br><br><hr><br>
+
+            <!-- Record not found message -->
+            ${this.employees?.length ? html`` : html`No employees registred`}
+
+            <!-- Employee records -->
             ${this.employees.map((employee)=>html`<app-employee .employee=${employee}></app-employee>`)}
+
             <slot></slot>
         `;
     }
@@ -34,9 +44,16 @@ export class Employees extends connect(store) (LitElement) {
     }
 
     async getEmployees() {
-        const result = await store.dispatch(getEmployees());
-        this.employees = result.employees;
+        // const result = await store.dispatch(getEmployees());
+        // this.employees = result.employees;
         // store.dispatch(getEmployees()).then((response) => { console.log(response) });
         // console.log(store.dispatch(getEmployees()));
+        store.dispatch(getEmployees());
+    }
+
+    shouldUpdate(changedProperties: any) {
+        // console.log(this.employees);
+        // console.log(changedProperties);
+        return changedProperties.has('employees');
     }
 }

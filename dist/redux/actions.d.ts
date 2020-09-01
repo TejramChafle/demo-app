@@ -4,6 +4,7 @@ export declare const DELETE_EMPLOYEE = "DELETE_EMPLOYEE";
 export declare const GET_EMPLOYEES = "GET_EMPLOYEES";
 export declare const GET_EMPLOYEE = "GET_EMPLOYEE";
 export declare const REGISTER_DEPARTMENT = "REGISTER_DEPARTMENT";
+export declare const LOGIN = "LOGIN";
 import { Employee } from '../pages/employees/employee.interface';
 export declare const registerEmployee: (employee: Employee) => {
     type: string;
@@ -27,12 +28,15 @@ export declare const getEmployeesResult: (employees: any, error: any) => {
 };
 export declare const deleteEmployee: (employee: Employee) => {
     type: string;
+    employees: any;
     isDeleted: boolean;
     error: boolean;
 };
-export declare const getEmployees: () => {
+export declare const getEmployees: () => (dispatch: any, getState: any) => Promise<void>;
+export declare const authResult: (result: any) => {
     type: string;
-    employees: any;
-    error: boolean;
+    auth: any;
+    error: any;
 };
+export declare const login: (credentials: any) => (dispatch: any, getState: any) => Promise<any>;
 //# sourceMappingURL=actions.d.ts.map

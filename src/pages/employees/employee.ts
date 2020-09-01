@@ -53,7 +53,7 @@ export class Employee extends LitElement {
             console.log(result);
             if (result.isDeleted) {
                 alert('Employee Record deleted successfully.');
-                store.dispatch(navigate('/employees'));
+                // store.dispatch(navigate('/employees'));
             }
         }
     }

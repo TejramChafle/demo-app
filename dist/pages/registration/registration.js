@@ -13,12 +13,6 @@ let Registration = class Registration extends LitElement {
         super();
         this.gender = ['Male', 'Female'];
         this.departments = ['Engineering', 'Human Respurce', 'Training', 'Maintenance', 'Support'];
-        /* setTimeout(() => {
-            console.log(this.id);
-            if (this.id) {
-                this.getEmployeeData();
-            }
-        }, 1000); */
     }
     render() {
         var _a, _b, _c, _d, _e;
@@ -76,14 +70,14 @@ let Registration = class Registration extends LitElement {
             const result = await store.dispatch(updateEmployee(this.formdata));
             console.log(result);
             if (!result.error) {
-                alert('Employee record updated.');
+                alert('Employee record updated successfully.');
                 window.history.back();
             }
         }
         else {
             const result = await store.dispatch(registerEmployee(this.formdata));
             console.log(result);
-            alert('Employee registration successfull.');
+            alert('Employee registered successfully.');
             window.history.back();
         }
     }
@@ -94,15 +88,15 @@ let Registration = class Registration extends LitElement {
     }
     async getEmployeeData() {
         const result = await store.dispatch(getEmployee(this.id));
-        console.log(result);
+        // console.log(result);
         if (result.employee && !result.error) {
             this.formdata = result.employee;
             this.performUpdate();
         }
     }
     shouldUpdate(changedProperties) {
-        console.log(this.id, this.formdata);
-        console.log(changedProperties);
+        // console.log(this.id, this.formdata);
+        // console.log(changedProperties);
         return !changedProperties.has('formdata');
     }
 };

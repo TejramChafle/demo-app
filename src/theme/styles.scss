@@ -7,6 +7,7 @@
 // Components
 @import './components/buttons';
 @import './components/inputs';
+@import './components/loading';
 
 // Layouts
 @import './layouts/header';
@@ -16,6 +17,7 @@
 // Pages
 @import './pages/main';
 @import './pages/employee';
+@import './pages/auth';
 
 // Default styling
 * {

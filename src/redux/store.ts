@@ -18,7 +18,7 @@ const logger = store => {
 
 export const store = createStore(
     reducer,
-    compose(lazyReducerEnhancer(combineReducers), applyMiddleware(logger, thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+    compose(lazyReducerEnhancer(combineReducers), state => state, applyMiddleware(logger, thunk))
     // applyMiddleware(logger, thunk)
 );
 

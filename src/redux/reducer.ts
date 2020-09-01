@@ -3,14 +3,14 @@ import * as actions from './actions';
 const INITIAL_STATE = {
     employees: [],
     employee: null,
-    error: false
+    error: false,
+    auth: null
 };
 
 export const reducer = (state = INITIAL_STATE, action: any) => {
-    console.log(state, action);
+    // console.log(state, action);
     switch (action.type) {
         case actions.GET_EMPLOYEES:
-            console.log(action);
             return {
                 ...state,
                 employees: action.employees,
@@ -19,7 +19,8 @@ export const reducer = (state = INITIAL_STATE, action: any) => {
         case actions.REGISTER_EMPLOYEE:
             return {
                 ...state,
-                employee: action.employee
+                employee: action.employee,
+                error: action.error
             }
         case actions.GET_EMPLOYEE:
             return {
@@ -36,7 +37,14 @@ export const reducer = (state = INITIAL_STATE, action: any) => {
         case actions.DELETE_EMPLOYEE:
             return {
                 ...state,
-                updated: action.updated
+                employees: action.employees,
+                error: action.error
+            }
+        case actions.LOGIN:
+            return {
+                ...state,
+                auth: action.auth,
+                error: action.error
             }
         default:
             return state;
