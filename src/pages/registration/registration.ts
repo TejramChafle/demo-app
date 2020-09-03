@@ -1,7 +1,7 @@
 import { LitElement, customElement, html, property } from 'lit-element';
 import { connect } from 'pwa-helpers';
 import { store } from '../../redux/store';
-import { getEmployee, updateEmployee, registerEmployee } from '../../redux/actions';
+import { getEmployee, updateEmployee, registerEmployee, loading } from '../../redux/actions';
 
 @customElement('employee-registration')
 export class Registration extends connect(store)(LitElement) {
@@ -11,14 +11,13 @@ export class Registration extends connect(store)(LitElement) {
     @property({ type: String }) id: any;
     @property({ type: Array }) gender = ['Male', 'Female'];
     @property({ type: Array }) departments = ['Engineering', 'Human Respurce', 'Training', 'Maintenance', 'Support'];
+    @property({ type: Boolean }) isLoading = false;
 
-    /* stateChanged(appstate: any) {
+    stateChanged(appstate: any) {
         console.log(appstate);
-        this.formdata = appstate.state.employee;
-        if (this.formdata) {
-            this.performUpdate();
-        }
-    } */
+        // this.formdata = appstate.state.employee;
+        this.isLoading = appstate.state.isLoading;
+    }
 
     constructor() {
         super();
@@ -61,7 +60,9 @@ export class Registration extends connect(store)(LitElement) {
                     </select>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary" >Submit</button>
+                    <button type="submit" class="btn btn-primary" >
+                        ${this.isLoading ? html`Saving..`: html`Submit`}
+                    </button>
                     <button type="reset" class="btn btn-warning" @click="${this.onReset}">Reset</button>
                 </div>     
             </form>
@@ -80,16 +81,27 @@ export class Registration extends connect(store)(LitElement) {
         event.preventDefault();
         // console.log(this.formdata);
 
+        // Change application status to loading true
+        store.dispatch(loading(true));
+
         if (this.id) {
-            const result = await store.dispatch(updateEmployee(this.formdata));
+            const result = await store.dispatch(updateEmployee({id: this.id, ...this.formdata}));
             console.log(result);
             if (!result.error) {
+
+                // Application loading status to false
+                store.dispatch(loading(false));
+
                 alert('Employee record updated successfully.');
                 window.history.back();
             }
         } else {
             const result = await store.dispatch(registerEmployee(this.formdata));
             console.log(result);
+            
+            // Application loading status to false
+            store.dispatch(loading(false));
+
             alert('Employee registered successfully.');
             window.history.back();
         }
@@ -111,9 +123,9 @@ export class Registration extends connect(store)(LitElement) {
         })
     }
 
-    /* shouldUpdate(changedProperties: any) {
+    shouldUpdate(changedProperties: any) {
         // console.log(this.id, this.formdata);
         // console.log(changedProperties);
-        return !changedProperties.has('formdata');
-    } */
+        return changedProperties.has('formdata') || changedProperties.has('isLoading');
+    }
 }

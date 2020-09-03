@@ -8,6 +8,7 @@ declare const Signin_base: (new (...args: any[]) => {
         employee: null;
         error: boolean;
         auth: null;
+        isLoading: boolean;
     }): void;
     readonly isConnected: boolean;
 }) & typeof LitElement;

@@ -10,9 +10,16 @@ import { navigate } from 'lit-redux-router';
 import { connect } from 'pwa-helpers';
 import { deleteEmployee } from '../../redux/actions';
 let Employee = class Employee extends connect(store)(LitElement) {
+    constructor() {
+        super(...arguments);
+        this.isLoading = false;
+    }
     render() {
         return html `
+            <!-- External style -->
             <link rel="stylesheet" href="../dist/theme/styles.css">
+
+            <!-- Employee Information -->
             <div class="employee">
                 <div class="employee__brief">
                     ${this.employee.name}
@@ -28,7 +35,9 @@ let Employee = class Employee extends connect(store)(LitElement) {
                         </table>
                         <div class="employee__detail--actions">
                             <button class="btn btn-secondary" @click="${this.onEdit}">Edit</button>
-                            <button class="btn btn-danger" @click="${this.onDelete}">Delete</button>
+                            <button class="btn btn-danger" @click="${this.onDelete}">
+                                ${this.isLoading ? html `Deleting..` : html `Delete`}    
+                            </button>
                         </div>
                     </div>`
             : html ``}
@@ -39,7 +48,8 @@ let Employee = class Employee extends connect(store)(LitElement) {
     toggleDetail() {
         // Toggle empployee detail
         this.employee.show = !this.employee.show;
-        // Perform screen rendering update
+        // Perform screen rendering update. This is needed because the screen does not reflect/update changes. 
+        // In order to hide & show template dynamically the render function needs to be called
         this.performUpdate();
     }
     onEdit() {
@@ -47,12 +57,21 @@ let Employee = class Employee extends connect(store)(LitElement) {
     }
     onDelete() {
         if (confirm('Are you sure you want to delete?')) {
+            // Change loading status in ordert to display deleting record 
+            this.isLoading = true;
+            this.performUpdate();
             store.dispatch(deleteEmployee(this.employee))
                 .then((response) => {
                 console.log(response);
+                // Change deletion status
+                this.isLoading = false;
+                this.performUpdate();
                 alert('Employee Record deleted successfully.');
             })
                 .catch((error) => {
+                // Change deletion status
+                this.isLoading = false;
+                this.performUpdate();
                 console.log(error);
             });
         }
@@ -61,6 +80,9 @@ let Employee = class Employee extends connect(store)(LitElement) {
 __decorate([
     property({ type: Object })
 ], Employee.prototype, "employee", void 0);
+__decorate([
+    property({ type: Boolean })
+], Employee.prototype, "isLoading", void 0);
 Employee = __decorate([
     customElement('app-employee')
 ], Employee);

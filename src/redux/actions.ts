@@ -6,6 +6,8 @@ export const GET_EMPLOYEE = 'GET_EMPLOYEE';
 
 export const REGISTER_DEPARTMENT = 'REGISTER_DEPARTMENT';
 export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
+export const LOADING = 'LOADING';
 
 import { FIREBASE_CONFIG } from '../config';
 
@@ -88,13 +90,14 @@ export const getEmployee = (id: string) => {
         })
             .then((response) => {
                 // console.log(response.json());
-                /* response.json().then((data) => {
+                const resp = response.json();
+                resp.then((data) => {
                     console.log(data);
                     if (data) {
                         dispatch(getEmployeeResult({ employee: { id, ...data }, error: false }));
                     }
-                }) */
-                return response.json();
+                })
+                return resp;
             })
             .catch((error) => {
                 console.log(error);
@@ -102,19 +105,44 @@ export const getEmployee = (id: string) => {
     }
 }
 
-export const updateEmployee = (employee: Employee) => {
-    const employees = JSON.parse(localStorage.getItem('employees'));
-    const employeesUpdated = employees.map((emp: Employee) => {
-        if (emp.id == employee.id) {
-            emp = employee;
-        }
-        return emp;
-    });
-    localStorage.setItem('employees', JSON.stringify(employeesUpdated));
+
+export const updateEmployeeResult = (employees: Array<Employee>) => {
     return {
         type: UPDATE_EMPLOYEE,
-        employees: employeesUpdated,
-        error: employeesUpdated ? false : true
+        employees: employees,
+        error: employees && employees.length ? false : true
+    }
+}
+
+export const updateEmployee = (employee: Employee) => {
+    console.log(employee);
+    return (dispatch, getState) => {
+        const auth = JSON.parse(localStorage.getItem('auth'));
+
+        return fetch(FIREBASE_CONFIG.databaseURL + '/employees/' + employee.id + '.json?auth=' + auth.idToken, {
+            method: 'put',
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(employee)
+        })
+        .then((response) => {
+            // console.log(response.json());
+            const resp = response.json();
+            resp.then((data) => {
+                const employees = getState().state.employees.map((emp: Employee) => {
+                    if (emp.id == employee.id) {
+                        emp = data;
+                    }
+                    return emp;
+                });
+                dispatch(updateEmployeeResult(employees));
+            })
+            return resp;
+        })
+        .catch((error) => {
+            console.log(error);
+        })
     }
 }
 
@@ -174,7 +202,11 @@ export const getEmployees = () => {
             .then((data) => {
                 // Here, we update the app state with the results of the API call.
                 console.log(data);
-                if (data) {
+                if (data.error) {
+                    if (data.error == 'Auth token is expired') {
+                        dispatch(logout());
+                    }
+                } else if (data) {
                     const employees = [];
                     for (const key in data) {
                         employees.push({
@@ -223,5 +255,22 @@ export const login = (credentials) => {
                 console.log('Request failed', error);
                 dispatch(authResult({ auth: null, error: error }));
             });
+    }
+}
+
+
+export const logout = () => {
+    localStorage.clear();
+    return {
+        type: LOGOUT,
+        auth: null,
+        error: false
+    }
+}
+
+export const loading = (isLoading: boolean) => {
+    return {
+        type: LOADING,
+        isLoading: isLoading
     }
 }

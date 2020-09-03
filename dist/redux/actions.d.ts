@@ -5,6 +5,8 @@ export declare const GET_EMPLOYEES = "GET_EMPLOYEES";
 export declare const GET_EMPLOYEE = "GET_EMPLOYEE";
 export declare const REGISTER_DEPARTMENT = "REGISTER_DEPARTMENT";
 export declare const LOGIN = "LOGIN";
+export declare const LOGOUT = "LOGOUT";
+export declare const LOADING = "LOADING";
 import { Employee } from '../pages/employees/employee.interface';
 export declare const registerEmployeeResult: (result: {
     employee: Employee;
@@ -24,11 +26,12 @@ export declare const getEmployeeResult: (result: {
     error: boolean;
 };
 export declare const getEmployee: (id: string) => (dispatch: any, getState: any) => Promise<any>;
-export declare const updateEmployee: (employee: Employee) => {
+export declare const updateEmployeeResult: (employees: Array<Employee>) => {
     type: string;
-    employees: any;
+    employees: Employee[];
     error: boolean;
 };
+export declare const updateEmployee: (employee: Employee) => (dispatch: any, getState: any) => Promise<any>;
 export declare const getEmployeesResult: (employees: any, error: any) => {
     type: string;
     employees: any;
@@ -51,4 +54,13 @@ export declare const authResult: (result: any) => {
     error: any;
 };
 export declare const login: (credentials: any) => (dispatch: any, getState: any) => Promise<any>;
+export declare const logout: () => {
+    type: string;
+    auth: null;
+    error: boolean;
+};
+export declare const loading: (isLoading: boolean) => {
+    type: string;
+    isLoading: boolean;
+};
 //# sourceMappingURL=actions.d.ts.map

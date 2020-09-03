@@ -165,7 +165,7 @@ aside {
   padding: 2rem;
   margin-top: 2rem;
   font-size: 1.8rem;
-  height: 75vh;
+  height: 85vh;
   min-width: 30rem;
   background-color: #9FA8DA;
   color: #fff;
@@ -185,6 +185,7 @@ aside {
 
 main {
   display: flex;
+  height: 85vh;
 }
 
 article {
@@ -193,7 +194,7 @@ article {
   padding: 2rem;
   border: 2px solid #9FA8DA;
   box-sizing: border-box;
-  height: 75vh;
+  height: 85vh;
 }
 
 .employee {

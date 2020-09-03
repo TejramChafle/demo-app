@@ -1,6 +1,7 @@
 @import '../abstracts/variables';
 main {
     display: flex;
+    height: 85vh;
 }
 article {
     width: 70%;
@@ -9,5 +10,6 @@ article {
     // background-color: $color-secondary;
     border: 2px solid $color-secondary;
     box-sizing: border-box;
-    height: 75vh;
+    // height: calc(100vh-50px);
+    height: 85vh;
 }

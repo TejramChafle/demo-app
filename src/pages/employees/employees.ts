@@ -2,7 +2,7 @@ import { LitElement, html, customElement, property } from 'lit-element';
 import { connect } from 'pwa-helpers';
 import { store } from '../../redux/store';
 import { navigate } from 'lit-redux-router';
-import { getEmployees } from '../../redux/actions';
+import { getEmployees, loading } from '../../redux/actions';
 
 @customElement('app-employees')
 export class Employees extends connect(store)(LitElement) {
@@ -15,9 +15,11 @@ export class Employees extends connect(store)(LitElement) {
     stateChanged(appstate: any) {
         console.log(appstate);
         this.employees = appstate.state.employees;
+        this.isLoading = appstate.state.isLoading;
     }
 
     @property({ type: Array }) employees = [];
+    @property({ type: Boolean }) isLoading = false;
 
     render() {
         return html`
@@ -30,10 +32,11 @@ export class Employees extends connect(store)(LitElement) {
             <br><br><hr><br>
 
             <!-- Records & Records not found message -->
-            ${this.employees && this.employees.length ? html`${this.employees.map((employee) => html`<app-employee .employee=${employee}></app-employee>`)}` : html`No employees registred`}
+            <!-- ${this.employees && this.employees.length ? html`${this.employees.map((employee) => html`<app-employee .employee=${employee}></app-employee>`)}` : html`No employees registred`} -->
 
             <!-- Employee records -->
-
+            ${this.isLoading ? html`<app-loading></app-loading>`: html`
+            ${this.employees && this.employees.length ? html`${this.employees.map((employee) => html`<app-employee .employee=${employee}></app-employee>`)}` : html`No employees registred`}`}
             <slot></slot>
         `;
     }
@@ -43,16 +46,17 @@ export class Employees extends connect(store)(LitElement) {
     }
 
     async getEmployees() {
-        // const result = await store.dispatch(getEmployees());
-        // this.employees = result.employees;
-        // store.dispatch(getEmployees()).then((response) => { console.log(response) });
-        // console.log(store.dispatch(getEmployees()));
-        store.dispatch(getEmployees());
+        // Show loading application
+        store.dispatch(loading(true));
+        store.dispatch(getEmployees()).then((response)=> {
+            store.dispatch(loading(false));
+        });
     }
 
     shouldUpdate(changedProperties: any) {
         // console.log(this.employees);
         // console.log(changedProperties);
-        return changedProperties.has('employees');
+        // changedProperties.has('employees') || 
+        return changedProperties.has('employees') || changedProperties.has('isLoading');
     }
 }

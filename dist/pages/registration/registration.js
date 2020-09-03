@@ -7,19 +7,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { LitElement, customElement, html, property } from 'lit-element';
 import { connect } from 'pwa-helpers';
 import { store } from '../../redux/store';
-import { getEmployee, updateEmployee, registerEmployee } from '../../redux/actions';
+import { getEmployee, updateEmployee, registerEmployee, loading } from '../../redux/actions';
 let Registration = class Registration extends connect(store)(LitElement) {
-    /* stateChanged(appstate: any) {
-        console.log(appstate);
-        this.formdata = appstate.state.employee;
-        if (this.formdata) {
-            this.performUpdate();
-        }
-    } */
     constructor() {
         super();
         this.gender = ['Male', 'Female'];
         this.departments = ['Engineering', 'Human Respurce', 'Training', 'Maintenance', 'Support'];
+        this.isLoading = false;
+    }
+    stateChanged(appstate) {
+        console.log(appstate);
+        // this.formdata = appstate.state.employee;
+        this.isLoading = appstate.state.isLoading;
     }
     render() {
         var _a, _b, _c, _d, _e;
@@ -57,7 +56,9 @@ let Registration = class Registration extends connect(store)(LitElement) {
                     </select>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary" >Submit</button>
+                    <button type="submit" class="btn btn-primary" >
+                        ${this.isLoading ? html `Saving..` : html `Submit`}
+                    </button>
                     <button type="reset" class="btn btn-warning" @click="${this.onReset}">Reset</button>
                 </div>     
             </form>
@@ -73,10 +74,14 @@ let Registration = class Registration extends connect(store)(LitElement) {
     async onSubmit(event) {
         event.preventDefault();
         // console.log(this.formdata);
+        // Change application status to loading true
+        store.dispatch(loading(true));
         if (this.id) {
-            const result = await store.dispatch(updateEmployee(this.formdata));
+            const result = await store.dispatch(updateEmployee(Object.assign({ id: this.id }, this.formdata)));
             console.log(result);
             if (!result.error) {
+                // Application loading status to false
+                store.dispatch(loading(false));
                 alert('Employee record updated successfully.');
                 window.history.back();
             }
@@ -84,6 +89,8 @@ let Registration = class Registration extends connect(store)(LitElement) {
         else {
             const result = await store.dispatch(registerEmployee(this.formdata));
             console.log(result);
+            // Application loading status to false
+            store.dispatch(loading(false));
             alert('Employee registered successfully.');
             window.history.back();
         }
@@ -102,6 +109,11 @@ let Registration = class Registration extends connect(store)(LitElement) {
             console.log(error);
         });
     }
+    shouldUpdate(changedProperties) {
+        // console.log(this.id, this.formdata);
+        // console.log(changedProperties);
+        return changedProperties.has('formdata') || changedProperties.has('isLoading');
+    }
 };
 __decorate([
     property({ type: Object })
@@ -115,6 +127,9 @@ __decorate([
 __decorate([
     property({ type: Array })
 ], Registration.prototype, "departments", void 0);
+__decorate([
+    property({ type: Boolean })
+], Registration.prototype, "isLoading", void 0);
 Registration = __decorate([
     customElement('employee-registration')
 ], Registration);

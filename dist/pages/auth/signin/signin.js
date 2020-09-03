@@ -6,7 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { LitElement, customElement, html, property } from 'lit-element';
 import { store } from '../../../redux/store';
-import { login } from '../../../redux/actions';
+import { login, authResult } from '../../../redux/actions';
 import { connect } from 'pwa-helpers';
 import { navigate } from 'lit-redux-router';
 let Signin = class Signin extends connect(store)(LitElement) {
@@ -75,6 +75,7 @@ let Signin = class Signin extends connect(store)(LitElement) {
             }
             else {
                 localStorage.setItem('auth', JSON.stringify(response));
+                store.dispatch(authResult({ auth: response, error: false }));
                 store.dispatch(navigate('/'));
             }
         })

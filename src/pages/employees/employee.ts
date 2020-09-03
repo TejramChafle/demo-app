@@ -7,11 +7,15 @@ import { deleteEmployee } from '../../redux/actions';
 @customElement('app-employee')
 export class Employee extends connect(store)(LitElement) {
 
-    @property({type: Object}) employee: any;
+    @property({ type: Object }) employee: any;
+    @property({ type: Boolean }) isLoading = false;
 
     render() {
         return html`
+            <!-- External style -->
             <link rel="stylesheet" href="../dist/theme/styles.css">
+
+            <!-- Employee Information -->
             <div class="employee">
                 <div class="employee__brief">
                     ${this.employee.name}
@@ -27,11 +31,13 @@ export class Employee extends connect(store)(LitElement) {
                         </table>
                         <div class="employee__detail--actions">
                             <button class="btn btn-secondary" @click="${this.onEdit}">Edit</button>
-                            <button class="btn btn-danger" @click="${this.onDelete}">Delete</button>
+                            <button class="btn btn-danger" @click="${this.onDelete}">
+                                ${this.isLoading ? html`Deleting..` : html`Delete`}    
+                            </button>
                         </div>
-                    </div>` 
-                    : html``
-                }
+                    </div>`
+                : html``
+            }
             </div>
             <slot></slot>
         `;
@@ -40,22 +46,36 @@ export class Employee extends connect(store)(LitElement) {
     toggleDetail() {
         // Toggle empployee detail
         this.employee.show = !this.employee.show;
-        // Perform screen rendering update
+        // Perform screen rendering update. This is needed because the screen does not reflect/update changes. 
+        // In order to hide & show template dynamically the render function needs to be called
         this.performUpdate();
     }
 
     onEdit() {
-        store.dispatch(navigate('/employee/'+this.employee.id));
+        store.dispatch(navigate('/employee/' + this.employee.id));
     }
 
     onDelete() {
         if (confirm('Are you sure you want to delete?')) {
+
+            // Change loading status in ordert to display deleting record 
+            this.isLoading = true;
+            this.performUpdate();
+
             store.dispatch(deleteEmployee(this.employee))
-                .then((response)=> {
+                .then((response) => {
                     console.log(response);
+
+                    // Change deletion status
+                    this.isLoading = false;
+                    this.performUpdate();
+                    
                     alert('Employee Record deleted successfully.');
                 })
-                .catch((error)=> {
+                .catch((error) => {
+                    // Change deletion status
+                    this.isLoading = false;
+                    this.performUpdate();
                     console.log(error);
                 });
         }

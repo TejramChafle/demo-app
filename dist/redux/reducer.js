@@ -3,7 +3,8 @@ const INITIAL_STATE = {
     employees: [],
     employee: null,
     error: false,
-    auth: null
+    auth: null,
+    isLoading: false
 };
 export const reducer = (state = INITIAL_STATE, action) => {
     // console.log(state, action);
@@ -20,6 +21,10 @@ export const reducer = (state = INITIAL_STATE, action) => {
             return Object.assign(Object.assign({}, state), { employees: action.employees, error: action.error });
         case actions.LOGIN:
             return Object.assign(Object.assign({}, state), { auth: action.auth, error: action.error });
+        case actions.LOGOUT:
+            return Object.assign(Object.assign({}, state), { auth: action.auth, error: action.error });
+        case actions.LOADING:
+            return Object.assign(Object.assign({}, state), { isLoading: action.isLoading });
         default:
             return state;
     }

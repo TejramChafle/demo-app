@@ -3,5 +3,6 @@ export declare const store: import("redux").Store<{
     employee: null;
     error: boolean;
     auth: null;
+    isLoading: boolean;
 }, any>;
 //# sourceMappingURL=store.d.ts.map

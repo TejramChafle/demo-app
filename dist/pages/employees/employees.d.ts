@@ -8,6 +8,7 @@ declare const Employees_base: (new (...args: any[]) => {
         employee: null;
         error: boolean;
         auth: null;
+        isLoading: boolean;
     }): void;
     readonly isConnected: boolean;
 }) & typeof LitElement;
@@ -15,6 +16,7 @@ export declare class Employees extends Employees_base {
     constructor();
     stateChanged(appstate: any): void;
     employees: never[];
+    isLoading: boolean;
     render(): import("lit-element").TemplateResult;
     registerStudent(): void;
     getEmployees(): Promise<void>;

@@ -4,7 +4,8 @@ const INITIAL_STATE = {
     employees: [],
     employee: null,
     error: false,
-    auth: null
+    auth: null,
+    isLoading: false
 };
 
 export const reducer = (state = INITIAL_STATE, action: any) => {
@@ -45,6 +46,17 @@ export const reducer = (state = INITIAL_STATE, action: any) => {
                 ...state,
                 auth: action.auth,
                 error: action.error
+            }
+        case actions.LOGOUT:
+            return {
+                ...state,
+                auth: action.auth,
+                error: action.error
+            }
+        case actions.LOADING:
+            return {
+                ...state,
+                isLoading: action.isLoading
             }
         default:
             return state;
